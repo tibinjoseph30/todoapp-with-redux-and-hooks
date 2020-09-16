@@ -1,0 +1,63 @@
+@import "includes/variables";
+@import "includes/mixins";
+@import "includes/form";
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+body {
+  background-color: $body_color !important;
+  font-family: $primary_font !important;
+
+  p {
+    font-size: 15px;
+  }
+  button {
+    &.form_submit {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 60px;
+      @include breakpoints(sm) {
+        min-width: 150px;
+      }
+    }
+  }
+
+  .todo-wrapper {
+    input {
+      min-height: 60px;
+      border: none;
+      outline: none;
+      box-shadow: none !important;
+      color: $body_color !important;
+      @include inputPlaceholder {
+        color: transparentize(#555, 0.6);
+      }
+    }
+
+    ul {
+      li {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem;
+        color: transparentize(#fff, 0.5);
+        border-width: 1px;
+        border-style: solid;
+        border-color: transparentize(#fff, 0.8);
+        background-color: transparent;
+        &:hover {
+          background-color: lighten($body_color, 2%);
+        }
+        input {
+          &:checked {
+            & + label {
+              text-decoration: line-through;
+              color: $primary_color;
+              font-style: italic;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,47 @@
+.custom-checkbox {
+  input {
+    padding: 0;
+    height: initial;
+    width: initial;
+    margin-bottom: 0;
+    display: none;
+    cursor: pointer;
+    &:checked {
+      & + label {
+        &::before {
+          background-color: $primary_color;
+        }
+        &::after {
+          content: "";
+          display: block;
+          position: absolute;
+          top: 4px;
+          left: 9px;
+          width: 6px;
+          height: 14px;
+          border: solid #fff;
+          border-width: 0 2px 2px 0;
+          transform: rotate(45deg);
+        }
+      }
+    }
+  }
+  label {
+    position: relative;
+    cursor: pointer;
+    margin-bottom: 0;
+    &::before {
+      content: "";
+      -webkit-appearance: none;
+      background-color: transparent;
+      border: 2px solid $primary_color;
+      padding: 10px;
+      display: inline-block;
+      position: relative;
+      vertical-align: middle;
+      cursor: pointer;
+      margin-right: 1rem;
+      @include border-radius(4px);
+    }
+  }
+}
