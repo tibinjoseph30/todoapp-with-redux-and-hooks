@@ -22,13 +22,18 @@ function TodoList() {
   const [checked, setChecked] = useState(false);
   const handleClick = () => setChecked(!checked);
   const [modal, setModal] = useState(false);
+  const [currentTodo, setCurrentTodo] = useState(null);
+
   const confirmDelete = () => {
-    dispatch(deleteTodo());
-    alert(5);
+    dispatch(deleteTodo(currentTodo));
     setModal(!modal);
   };
 
-  const toggle = () => setModal(!modal);
+  const toggle = (id) => {
+    setCurrentTodo(id);
+    setModal(!modal);
+  };
+
   return (
     <div>
       <ListGroup classNameName="list-unstyled">
