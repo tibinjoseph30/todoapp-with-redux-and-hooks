@@ -22,17 +22,18 @@ function TodoList() {
   const [checked, setChecked] = useState(false);
   const handleClick = () => setChecked(!checked);
   const [modal, setModal] = useState(false);
-  const [currentTodo, setCurrentTodo] = useState(null);
+  const [currentTodo, setCurrentTodo] = useState([]);
 
   const confirmDelete = () => {
-    dispatch(deleteTodo(currentTodo));
+    dispatch(deleteTodo(currentTodo.id));
     setModal(!modal);
   };
 
-  const toggle = (id) => {
-    setCurrentTodo(id);
+  const toggle = (todo) => {
+    setCurrentTodo(todo);
     setModal(!modal);
   };
+  
 
   return (
     <div>
@@ -64,7 +65,7 @@ function TodoList() {
               size="sm"
               className="ml-2"
               aria-label="Delete"
-              onClick={() => toggle(todo.id)}
+              onClick={() => toggle(todo)}
             >
               <FontAwesomeIcon icon={faTrash} />
             </Button>
@@ -73,7 +74,7 @@ function TodoList() {
       </ListGroup>
       <Modal isOpen={modal} toggle={toggle}>
         <ModalHeader toggle={toggle}></ModalHeader>
-        <ModalBody>Delete this ?</ModalBody>
+        <ModalBody>Delete this{currentTodo.title} ?</ModalBody>
         <ModalFooter>
           <Button color="danger" onClick={confirmDelete}>
             Yes, delete
