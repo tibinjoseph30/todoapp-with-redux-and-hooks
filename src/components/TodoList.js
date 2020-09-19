@@ -21,14 +21,23 @@ function TodoList() {
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
   const handleClick = () => setChecked(!checked);
-  const [modal, setModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
+  const [currentTodo, setCurrentTodo] = useState([]);
+
   const confirmDelete = () => {
-    dispatch(deleteTodo());
-    alert(5);
-    setModal(!modal);
+    dispatch(deleteTodo(currentTodo.id));
+    setDeleteModal(!deleteModal);
   };
 
-  const toggle = () => setModal(!modal);
+  const toggleDeleteModal = (todo) => {
+    setCurrentTodo(todo);
+    setDeleteModal(!deleteModal);
+  };
+  const toggleEditModal = (todo) => {
+    setCurrentTodo(todo);
+    setEditModal(!editModal);
+  };
   return (
     <div>
       <ListGroup classNameName="list-unstyled">
@@ -47,10 +56,11 @@ function TodoList() {
               </Label>
             </div>
             <Button
-              color="info"
+              color="primary"
               size="sm"
               className="ml-auto"
               aria-label="Edit"
+              onClick={() => toggleEditModal(todo)}
             >
               <FontAwesomeIcon icon={faPencilAlt} />
             </Button>
@@ -59,21 +69,58 @@ function TodoList() {
               size="sm"
               className="ml-2"
               aria-label="Delete"
-              onClick={() => toggle(todo.id)}
+              onClick={() => toggleDeleteModal(todo)}
             >
               <FontAwesomeIcon icon={faTrash} />
             </Button>
           </ListGroupItem>
         ))}
       </ListGroup>
-      <Modal isOpen={modal} toggle={toggle}>
-        <ModalHeader toggle={toggle}></ModalHeader>
-        <ModalBody>Delete this ?</ModalBody>
-        <ModalFooter>
-          <Button color="danger" onClick={confirmDelete}>
-            Yes, delete
+      <Modal
+        isOpen={deleteModal}
+        fade={false}
+        toggle={toggleDeleteModal}
+        centered
+      >
+        <ModalHeader className="border-0">
+          <h5>
+            Delete <span className="text-danger">{currentTodo.title}</span> ?
+          </h5>
+        </ModalHeader>
+        <ModalBody>
+          <p className="text-muted">
+            Are you sure you want to delete this todo?. this can't be restore.
+          </p>
+        </ModalBody>
+        <ModalFooter className="border-0">
+          <Button type="button" color="danger" onClick={confirmDelete}>
+            Yes, delete it
           </Button>{" "}
-          <Button color="secondary" onClick={toggle}>
+          <Button
+            type="button"
+            color="outline-secondary"
+            onClick={toggleDeleteModal}
+          >
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
+      <Modal isOpen={editModal} toggle={toggleEditModal} centered>
+        <ModalHeader className="border-0">
+          <h5>Edit Todo</h5>
+        </ModalHeader>
+        <ModalBody>
+          <Input type="text" value={currentTodo.title}></Input>
+        </ModalBody>
+        <ModalFooter className="border-0">
+          <Button type="button" color="primary">
+            Update
+          </Button>{" "}
+          <Button
+            type="button"
+            color="outline-secondary"
+            onClick={toggleEditModal}
+          >
             Cancel
           </Button>
         </ModalFooter>
