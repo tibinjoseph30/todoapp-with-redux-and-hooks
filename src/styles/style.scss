@@ -23,16 +23,24 @@ body {
       }
     }
   }
+  .container {
+    max-width: 97%;
+    @include breakpoints(md) {
+      max-width: 60%;
+    }
+  }
 
   .todo-wrapper {
-    input {
-      min-height: 60px;
-      border: none;
-      outline: none;
-      box-shadow: none !important;
-      color: $body_color !important;
-      @include inputPlaceholder {
-        color: transparentize(#555, 0.6);
+    .search-panel {
+      input {
+        min-height: 60px;
+        border: none;
+        outline: none;
+        box-shadow: none !important;
+        color: $body_color !important;
+        @include inputPlaceholder {
+          color: transparentize(#555, 0.6);
+        }
       }
     }
 
@@ -46,6 +54,7 @@ body {
         border-style: solid;
         border-color: transparentize(#fff, 0.8);
         background-color: transparent;
+        min-height: 70px;
         &:hover {
           background-color: lighten($body_color, 2%);
         }
@@ -53,8 +62,7 @@ body {
           &:checked {
             & + label {
               text-decoration: line-through;
-              color: $primary_color;
-              font-style: italic;
+              color: transparentize(#fff, 0.8);
             }
           }
         }

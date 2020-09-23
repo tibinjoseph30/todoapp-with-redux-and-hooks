@@ -22,8 +22,8 @@ function TodoList() {
   const [checked, setChecked] = useState(false);
   const handleClick = () => setChecked(!checked);
   const [deleteModal, setDeleteModal] = useState(false);
-  const [editModal, setEditModal] = useState(false);
   const [currentTodo, setCurrentTodo] = useState([]);
+  const [editable, setEditable] = useState(false);
 
   const confirmDelete = () => {
     dispatch(deleteTodo(currentTodo.id));
@@ -34,33 +34,41 @@ function TodoList() {
     setCurrentTodo(todo);
     setDeleteModal(!deleteModal);
   };
-  const toggleEditModal = (todo) => {
-    setCurrentTodo(todo);
-    setEditModal(!editModal);
+
+  const editTodo = () => {
+    setEditable(!editable);
   };
+
   return (
     <div>
-      <ListGroup classNameName="list-unstyled">
+      <ListGroup className="list-unstyled">
         {todos.map((todo) => (
           <ListGroupItem key={todo.id}>
-            <div className="custom-checkbox">
-              <Input
-                type="checkbox"
-                id={todo.id}
-                name=""
-                checked={checked[todo.id]}
-                onChange={handleClick}
-              />
-              <Label for={todo.id} className="">
-                {todo.title}
-              </Label>
+            <div className="d-flex">
+              {editable ? (
+                <Input type="text" />
+              ) : (
+                <div className="custom-checkbox">
+                  <Input
+                    type="checkbox"
+                    id={todo.id}
+                    name=""
+                    checked={checked[todo.id]}
+                    onChange={handleClick}
+                  />
+                  <Label for={todo.id} className="">
+                    {todo.title}
+                  </Label>
+                </div>
+              )}
             </div>
+
             <Button
               color="primary"
               size="sm"
               className="ml-auto"
               aria-label="Edit"
-              onClick={() => toggleEditModal(todo)}
+              onClick={editTodo}
             >
               <FontAwesomeIcon icon={faPencilAlt} />
             </Button>
@@ -100,26 +108,6 @@ function TodoList() {
             type="button"
             color="outline-secondary"
             onClick={toggleDeleteModal}
-          >
-            Cancel
-          </Button>
-        </ModalFooter>
-      </Modal>
-      <Modal isOpen={editModal} toggle={toggleEditModal} centered>
-        <ModalHeader className="border-0">
-          <h5>Edit Todo</h5>
-        </ModalHeader>
-        <ModalBody>
-          <Input type="text" value={currentTodo.title}></Input>
-        </ModalBody>
-        <ModalFooter className="border-0">
-          <Button type="button" color="primary">
-            Update
-          </Button>{" "}
-          <Button
-            type="button"
-            color="outline-secondary"
-            onClick={toggleEditModal}
           >
             Cancel
           </Button>
